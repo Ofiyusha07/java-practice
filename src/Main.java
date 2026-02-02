@@ -1,13 +1,63 @@
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
-void main() {
-    //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-    // to see how IntelliJ IDEA suggests fixing it.
-    IO.println(String.format("Hello and welcome!"));
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
-    for (int i = 1; i <= 5; i++) {
-        //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-        // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-        IO.println("i = " + i);
+class Book {
+    private String title;
+    private String author;
+
+    public Book(String title, String author) {
+        this.title = title;
+        this.author = author;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Book)) return false;
+        Book book = (Book) o;
+        return Objects.equals(title, book.title) &&
+                Objects.equals(author, book.author);
+    }
+
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(title, author);
+    }
+
+    @Override
+    public String toString() {
+        return title + " by " + author;
     }
 }
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        ArrayList<Book> list1 = new ArrayList<>();
+        list1.add(new Book("1984", "George Orwell"));
+        list1.add(new Book("Brave New World", "Aldous Huxley"));
+
+        ArrayList<Book> list2 = new ArrayList<>();
+        list2.add(new Book("1984", "George Orwell")); // дубликат
+        list2.add(new Book("Fahrenheit 451", "Ray Bradbury"));
+
+
+        Set<Book> mergedSet = new HashSet<>();
+        mergedSet.addAll(list1);
+        mergedSet.addAll(list2);
+
+
+        ArrayList<Book> mergedList = new ArrayList<>(mergedSet);
+
+
+        for (Book book : mergedList) {
+            System.out.println(book);
+        }
+    }
+}
+
